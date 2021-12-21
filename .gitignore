@@ -106,3 +106,4 @@ dist
 generated
 build
 *.sol
+.bin
