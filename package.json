@@ -1,0 +1,27 @@
+{
+	"name": "joy-world-subgraph",
+	"license": "MIT",
+	"scripts": {
+		"test": "npx graph test index",
+		"codegen": "npx graph codegen",
+		"build": "npx graph build",
+		"deploy": "npx graph deploy --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ protofire/joy-world"
+	},
+	"dependencies": {
+		"@graphprotocol/graph-cli": "^0.23.2",
+		"@graphprotocol/graph-ts": "^0.23.1",
+		"@protofire/subgraph-toolkit": "^0.1.2",
+		"matchstick-as": "^0.2.0"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/protofire/joy-world-subgraph.git"
+	},
+	"author": "@cold-briu",
+	"version": "1.0.0",
+	"description": "a subgraph for joy world and joy world toys",
+	"bugs": {
+		"url": "https://github.com/protofire/joy-world-subgraph/issues"
+	},
+	"homepage": "https://github.com/protofire/joy-world-subgraph#readme"
+}
