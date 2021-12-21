@@ -9,16 +9,16 @@ dataSources:
     network: mainnet
     source:
       address: "0x6c7b6cc55d4098400ac787c8793205d3e86c37c9"
-      abi: joy-world
+      abi: joyWorld
       startBlock: 9091595
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
       language: wasm/assemblyscript
       entities:
-        - Token
+        - JoyToken
       abis:
-        - name: joy-world
+        - name: joyWorld
           file: ./abis/joy-world.json
       eventHandlers:
         - event: Approval(indexed address,indexed address,indexed uint256)
