@@ -31,9 +31,9 @@ export namespace tokens {
 			return entity as JoyToken
 		}
 
-		export function changeOwner(tokenId: string, owner: string): JoyToken {
-			let entity = getOrCreateToken(tokenId, owner)
-			entity.owner = owner
+		export function changeOwner(tokenId: string, newOwner: string): JoyToken {
+			let entity = getOrCreateToken(tokenId, newOwner)
+			entity.owner = newOwner
 			return entity as JoyToken
 		}
 
