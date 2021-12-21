@@ -2,7 +2,7 @@ import {
 	Approval,
 	ApprovalForAll,
 	Transfer
-} from "../../generated/artblocks/joyWorld";
+} from "../../generated/joyWorld/joyWorld";
 
 export function handleApproval(event: Approval): void { }
 
