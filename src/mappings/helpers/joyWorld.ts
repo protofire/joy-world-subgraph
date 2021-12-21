@@ -2,7 +2,7 @@ import { BigInt, Bytes } from "@graphprotocol/graph-ts"
 import { tokens } from "../../modules"
 
 export namespace joyWorld {
-	export namespace transfer {
+	export namespace transfers {
 		export function handleMint(to: Bytes, tokenId: string, timestamp: BigInt, blockId: string): void {
 			// let account = accounts.getOrCreateAccount(to)
 			// account.save()
