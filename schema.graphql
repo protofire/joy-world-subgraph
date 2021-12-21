@@ -2,11 +2,11 @@ interface Erc721Token {
 	"Internal ID used for indexation"
 	id: ID!
 
-	"Token's current owner"
-	owner: Account!
+	# "Token's current owner"
+	# owner: Account!
 
-	"Current approval"
-	approval: Account
+	# "Current approval"
+	# approval: Account
 
 	"Current burned status"
 	burned: Boolean
@@ -16,11 +16,11 @@ type JoyToken implements Erc721Token @entity{
 	"Internal ID used for indexation"
 	id: ID!
 
-	"Token's current owner"
-	owner: Account!
+	# "Token's current owner"
+	# owner: Account!
 
-	"Current approval"
-	approval: Account
+	# "Current approval"
+	# approval: Account
 
 	"Current burned status"
 	burned: Boolean
