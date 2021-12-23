@@ -6,7 +6,7 @@ import {
 } from "../../generated/joyWorld/joyWorld";
 import { accounts, events, metadata, tokens } from "../modules";
 
-import { joyWorld as joyWorldHelpers } from "./helpers";
+import { joyToys as joyToysHelpers } from "./helpers";
 
 export function handleApproval(event: Approval): void {
 	let ownerAddress = event.params.owner
@@ -42,14 +42,13 @@ export function handleApproval(event: Approval): void {
 	)
 	approval.save()
 
-
 	let approved = accounts.getOrCreateAccount(approvedAddress)
 	approved.save()
 
 	let owner = accounts.getOrCreateAccount(ownerAddress)
 	owner.save()
 
-	let token = tokens.joyTokens.setApproval(tokenId, approved.id, owner.id)
+	let token = tokens.joyToys.setApproval(tokenId, approved.id, owner.id)
 	token.save()
 }
 
@@ -119,15 +118,15 @@ export function handleTransfer(event: Transfer): void {
 	transaction.save()
 
 	if (from == ADDRESS_ZERO) {
-		joyWorldHelpers.transfers.handleMint(
+		joyToysHelpers.transfers.handleMint(
 			event.params.to, tokenId, timestamp, block.id, transaction.id
 		)
 	} else if (to == ADDRESS_ZERO) {
-		joyWorldHelpers.transfers.handleBurn(
+		joyToysHelpers.transfers.handleBurn(
 			event.params.from, tokenId, timestamp, block.id, transaction.id
 		)
 	} else {
-		joyWorldHelpers.transfers.handleRegularTransfer(
+		joyToysHelpers.transfers.handleRegularTransfer(
 			event.params.from, event.params.to, tokenId, timestamp, block.id, transaction.id
 		)
 	}
