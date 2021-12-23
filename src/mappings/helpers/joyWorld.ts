@@ -1,11 +1,11 @@
 import { BigInt, Bytes } from "@graphprotocol/graph-ts"
-import { tokens } from "../../modules"
+import { accounts, tokens, transactions } from "../../modules"
 
 export namespace joyWorld {
 	export namespace transfers {
 		export function handleMint(to: Bytes, tokenId: string, timestamp: BigInt, blockId: string): void {
-			// let account = accounts.getOrCreateAccount(to)
-			// account.save()
+			let account = accounts.getOrCreateAccount(to)
+			account.save()
 
 			let token = tokens.joyTokens.mintToken(tokenId, "account.id")
 			token.save()
@@ -16,8 +16,8 @@ export namespace joyWorld {
 
 
 		export function handleBurn(from: Bytes, tokenId: string, timestamp: BigInt, blockId: string): void {
-			// let account = accounts.getOrCreateAccount(from)
-			// account.save()
+			let account = accounts.getOrCreateAccount(from)
+			account.save()
 
 			let token = tokens.joyTokens.burnToken(tokenId, "account.id")
 			token.save()
@@ -27,11 +27,11 @@ export namespace joyWorld {
 		}
 
 		export function handleRegularTransfer(from: Bytes, to: Bytes, tokenId: string, timestamp: BigInt, blockId: string): void {
-			// let seller = accounts.getOrCreateAccount(from)
-			// seller.save()
+			let seller = accounts.getOrCreateAccount(from)
+			seller.save()
 
-			// let buyer = accounts.getOrCreateAccount(to)
-			// buyer.save()
+			let buyer = accounts.getOrCreateAccount(to)
+			buyer.save()
 
 			let token = tokens.joyTokens.changeOwner(tokenId, "buyer.id")
 			token.save()
