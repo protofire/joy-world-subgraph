@@ -3,7 +3,7 @@ import { Block, Transaction } from "../../../generated/schema"
 
 export namespace metadata {
 	export namespace transactions {
-		export function getOrCreateTransactionMeta(
+		export function getOrCreateTransaction(
 			id: string, blockId: string, hash: Bytes,
 			from: Bytes, gasLimit: BigInt, gasPrice: BigInt
 		): Transaction {
