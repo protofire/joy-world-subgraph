@@ -1,7 +1,7 @@
 import { BigInt, Bytes } from "@graphprotocol/graph-ts"
 import { accounts, tokens, events } from "../../modules"
 
-export namespace joyWorld {
+export namespace joyToys {
 	export namespace transfers {
 		export function handleMint(
 			to: Bytes, tokenId: string,
@@ -11,7 +11,7 @@ export namespace joyWorld {
 			let account = accounts.getOrCreateAccount(to)
 			account.save()
 
-			let token = tokens.joyToys.mintToken(tokenId, "account.id")
+			let token = tokens.joyToys.mintToken(tokenId, account.id)
 			token.save()
 
 			let transaction = events.transactions.getNewMint(
@@ -29,7 +29,7 @@ export namespace joyWorld {
 			let account = accounts.getOrCreateAccount(from)
 			account.save()
 
-			let token = tokens.joyToys.burnToken(tokenId, "account.id")
+			let token = tokens.joyToys.burnToken(tokenId, account.id)
 			token.save()
 
 			let transaction = events.transactions.getNewBurn(
@@ -49,7 +49,7 @@ export namespace joyWorld {
 			let buyer = accounts.getOrCreateAccount(to)
 			buyer.save()
 
-			let token = tokens.joyToys.changeOwner(tokenId, "buyer.id")
+			let token = tokens.joyToys.changeOwner(tokenId, buyer.id)
 			token.save()
 
 			let transaction = events.transactions.getNewTransfer(
