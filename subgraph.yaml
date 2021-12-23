@@ -5,6 +5,37 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
+    name: joyToys
+    network: mainnet
+    source:
+      address: "0x0574c34385b039c2bb8db898f61b7767024a9449"
+      abi: joyToys
+      startBlock: 11556975
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - JoyToys
+        - Erc721Transaction
+        - Approval
+        - Account
+        - OperatorOwner
+        - JoyToken
+        - Block
+        - Transaction
+      abis:
+        - name: joyToys
+          file: ./abis/joy-toys.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,indexed uint256)
+          handler: handleApproval
+        - event: ApprovalForAll(indexed address,indexed address,bool)
+          handler: handleApprovalForAll
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: ./src/mappings/joyToys.ts
+  - kind: ethereum/contract
     name: joyWorld
     network: mainnet
     source:
@@ -17,6 +48,13 @@ dataSources:
       language: wasm/assemblyscript
       entities:
         - JoyToken
+        - Erc721Transaction
+        - Approval
+        - Account
+        - OperatorOwner
+        - JoyToken
+        - Block
+        - Transaction
       abis:
         - name: joyWorld
           file: ./abis/joy-world.json
