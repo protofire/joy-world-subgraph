@@ -31,6 +31,8 @@ type Erc721Transaction implements Event @entity {
 	"related block"
 	block: Block
 
+	"related evm transaction"
+	transaction: Transaction
 }
 
 "A 721 holder account"
@@ -99,5 +101,41 @@ type JoyToken implements Erc721Token @entity{
 }
 
 type Block @entity {
+	"Internal ID used for indexation"
 	id: ID!
+
+	"event timestamp"
+	timestamp: BigInt!	
+	
+	"Block's number"
+    number: BigInt!
+
+	"Erc721Transactions contained in this block"
+	erc721Transactions: [Erc721Transaction!] @derivedFrom(field: "block")
+
+	"Chain transactions info"
+	transactions: [Transaction!] @derivedFrom(field: "block")
+}
+
+type Transaction @entity {
+	"Internal ID used for indexation"
+	id: ID!
+
+	"Transaction's Block"
+	block: Block!
+
+	"Transaction's hash"
+	hash: Bytes
+
+	"Sender Address"
+	from: Bytes
+
+	"Transaction's gas"
+    gasLimit: BigInt
+
+	"Transaction's gas price"
+    gasPrice: BigInt
+
+	"Erc721Transactions contained in this block"
+	erc721Transactions: [Erc721Transaction!] @derivedFrom(field: "transaction")
 }
