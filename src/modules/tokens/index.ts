@@ -6,7 +6,7 @@ export namespace tokens {
 
 	export namespace joyTokens {
 		export function getOrCreateToken(_tokenId: string, accountId: string): JoyToken {
-			let tokenId = "joyToken-".concat(_tokenId)
+			let tokenId = shared.constants.joyWorld.JOY_WORLD_PREFIX.concat(_tokenId)
 			let entity = JoyToken.load(tokenId)
 			if (entity == null) {
 				entity = new JoyToken(tokenId)
