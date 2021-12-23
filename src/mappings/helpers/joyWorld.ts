@@ -10,8 +10,8 @@ export namespace joyWorld {
 			let token = tokens.joyTokens.mintToken(tokenId, "account.id")
 			token.save()
 
-			// let transaction = transactions.getNewMint(account.id, tokenId, timestamp, blockId)
-			// transaction.save()
+			let transaction = transactions.getNewMint(account.id, tokenId, timestamp.toString(), blockId)
+			transaction.save()
 		}
 
 
@@ -22,8 +22,8 @@ export namespace joyWorld {
 			let token = tokens.joyTokens.burnToken(tokenId, "account.id")
 			token.save()
 
-			// let transaction = transactions.getNewBurn(account.id, tokenId, timestamp, blockId)
-			// transaction.save()
+			let transaction = transactions.getNewBurn(account.id, tokenId, timestamp.toString(), blockId)
+			transaction.save()
 		}
 
 		export function handleRegularTransfer(from: Bytes, to: Bytes, tokenId: string, timestamp: BigInt, blockId: string): void {
@@ -36,8 +36,8 @@ export namespace joyWorld {
 			let token = tokens.joyTokens.changeOwner(tokenId, "buyer.id")
 			token.save()
 
-			// let transaction = transactions.getNewTransfer(seller.id, buyer.id, tokenId, timestamp, blockId)
-			// transaction.save()
+			let transaction = transactions.getNewTransfer(seller.id, buyer.id, tokenId, timestamp.toString(), blockId)
+			transaction.save()
 		}
 	}
 }
