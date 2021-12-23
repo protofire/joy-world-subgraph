@@ -11,7 +11,7 @@ enum Erc721TransactionType {
 	TRANSFER
 }
 
-"A 721 transaction event"
+"A 721 transaction event, it's created every -transfer event-"
 type Erc721Transaction implements Event @entity {
 	"Internal ID used for indexation"
 	id: ID!
@@ -24,6 +24,27 @@ type Erc721Transaction implements Event @entity {
 
 	"Erc721Transaction types"
 	type: Erc721TransactionType
+
+	"related token"
+	token: Erc721Token
+	
+	"related block"
+	block: Block
+
+	"related evm transaction"
+	transaction: Transaction
+}
+
+"An approval event"
+type Approval implements Event @entity {
+	"Internal ID used for indexation"
+	id: ID!
+
+	"Approved account"
+	approved: Account
+
+	"Owner account"
+	owner: Account
 
 	"related token"
 	token: Erc721Token
