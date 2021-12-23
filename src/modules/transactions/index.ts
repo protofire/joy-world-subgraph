@@ -19,39 +19,44 @@ export namespace transactions {
 	}
 
 	export function getNewMint(
-		to: string, token: string, timestamp: string, blockId: string
+		to: string, token: string,
+		timestamp: string, blockId: string, transactionId: string
 	): Erc721Transaction {
 		let transaction = new Erc721Transaction(helpers.getNewTransactionId(ADDRESS_ZERO, to, timestamp))
 		transaction.from = ADDRESS_ZERO
 		transaction.to = to
 		transaction.token = token
 		transaction.block = blockId
+		transaction.transaction = transactionId
 		transaction.type = constants.TRANSACTION_MINT
 		return transaction as Erc721Transaction
 	}
 
 	export function getNewBurn(
 		from: string, token: string,
-		timestamp: string, blockId: string
+		timestamp: string, blockId: string, transactionId: string
 	): Erc721Transaction {
 		let transaction = new Erc721Transaction(helpers.getNewTransactionId(from, ADDRESS_ZERO, timestamp))
 		transaction.from = from
 		transaction.to = ADDRESS_ZERO
 		transaction.token = token
 		transaction.block = blockId
+		transaction.transaction = transactionId
 		transaction.type = constants.TRANSACTION_BURN
 		return transaction as Erc721Transaction
 	}
 
 	export function getNewTransfer(
 		from: string, to: string,
-		token: string, timestamp: string, blockId: string
+		token: string, timestamp: string,
+		blockId: string, transactionId: string
 	): Erc721Transaction {
 		let transaction = new Erc721Transaction(helpers.getNewTransactionId(from, to, timestamp))
 		transaction.from = from
 		transaction.to = to
 		transaction.token = token
 		transaction.block = blockId
+		transaction.transaction = transactionId
 		transaction.type = constants.TRANSACTION_TRANSFER
 		return transaction as Erc721Transaction
 	}

@@ -4,6 +4,7 @@ import {
 	ApprovalForAll,
 	Transfer
 } from "../../generated/joyWorld/joyWorld";
+import { metadata } from "../modules";
 
 import { joyWorld as joyWorldHelpers } from "./helpers";
 
@@ -12,7 +13,6 @@ export function handleApproval(event: Approval): void { }
 export function handleApprovalForAll(event: ApprovalForAll): void { }
 
 export function handleTransfer(event: Transfer): void {
-
 	let from = event.params.from.toHex()
 	let to = event.params.to.toHex()
 	let tokenId = event.params.tokenId.toHex()
@@ -21,24 +21,30 @@ export function handleTransfer(event: Transfer): void {
 	let txHash = event.transaction.hash
 	let timestamp = event.block.timestamp
 
-	// let block = blocks.getOrCreateBlock(blockId, timestamp, blockNumber)
-	// block.save()
+	let block = metadata.blocks.getOrCreateBlock(blockId, timestamp, blockNumber)
+	block.save()
 
-	// let meta = transactionsMeta.getOrCreateTransactionMeta(
-	// 	txHash.toHexString(),
-	// 	blockId,
-	// 	txHash,
-	// 	event.transaction.from,
-	// 	event.transaction.gasLimit,
-	// 	event.transaction.gasPrice,
-	// )
-	// meta.save()
+	let transaction = metadata.transactions.getOrCreateTransaction(
+		txHash.toHexString(),
+		blockId,
+		txHash,
+		event.transaction.from,
+		event.transaction.gasLimit,
+		event.transaction.gasPrice,
+	)
+	transaction.save()
 
 	if (from == ADDRESS_ZERO) {
-		joyWorldHelpers.transfers.handleMint(event.params.to, tokenId, timestamp, blockId)
+		joyWorldHelpers.transfers.handleMint(
+			event.params.to, tokenId, timestamp, block.id, transaction.id
+		)
 	} else if (to == ADDRESS_ZERO) {
-		joyWorldHelpers.transfers.handleBurn(event.params.from, tokenId, timestamp, blockId)
+		joyWorldHelpers.transfers.handleBurn(
+			event.params.from, tokenId, timestamp, block.id, transaction.id
+		)
 	} else {
-		joyWorldHelpers.transfers.handleRegularTransfer(event.params.from, event.params.to, tokenId, timestamp, blockId)
+		joyWorldHelpers.transfers.handleRegularTransfer(
+			event.params.from, event.params.to, tokenId, timestamp, block.id, transaction.id
+		)
 	}
 }
