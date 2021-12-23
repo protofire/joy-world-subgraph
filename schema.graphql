@@ -1,12 +1,68 @@
+"A contract's event"
+interface Event {
+	"Internal ID used for indexation"
+	id: ID!
+}
+
+"Erc721Transaction types"
+enum Erc721TransactionType {
+	MINT
+	BURN
+	TRANSFER
+}
+
+"A 721 transaction event"
+type Erc721Transaction implements Event @entity {
+	"Internal ID used for indexation"
+	id: ID!
+
+	"Seller account"
+	from: Account
+
+	"Buyer account"
+	to: Account
+
+	"Erc721Transaction types"
+	type: Erc721TransactionType
+
+	"related token"
+	token: Erc721Token
+	
+	"related block"
+	block: Block
+
+}
+
+"A 721 holder account"
+type Account @entity {
+	"Internal ID used for indexation"
+	id: ID!
+
+	"Account evm address"
+	address: Bytes
+
+	"Owned tokens"
+	tokens: [Erc721Token!]! @derivedFrom(field: "owner")
+
+	"Approved tokens"
+	approved: [Erc721Token!]! @derivedFrom(field: "approval")
+	
+	"Transactions sent by this account"
+	sent: [Erc721Transaction!] @derivedFrom(field: "from")
+ 
+	"Transactions recieved by this account"
+	recieved: [Erc721Transaction!] @derivedFrom(field: "to")
+}
+
 interface Erc721Token {
 	"Internal ID used for indexation"
 	id: ID!
 
-	# "Token's current owner"
-	# owner: Account!
+	"Token's current owner"
+	owner: Account!
 
-	# "Current approval"
-	# approval: Account
+	"Current approval"
+	approval: Account
 
 	"Current burned status"
 	burned: Boolean
@@ -16,12 +72,16 @@ type JoyToken implements Erc721Token @entity{
 	"Internal ID used for indexation"
 	id: ID!
 
-	# "Token's current owner"
-	# owner: Account!
+	"Token's current owner"
+	owner: Account!
 
-	# "Current approval"
-	# approval: Account
+	"Current approval"
+	approval: Account
 
 	"Current burned status"
 	burned: Boolean
+}
+
+type Block @entity {
+	id: ID!
 }
