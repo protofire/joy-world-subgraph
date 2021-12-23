@@ -54,6 +54,22 @@ type Account @entity {
 	recieved: [Erc721Transaction!] @derivedFrom(field: "to")
 }
 
+"Many to many relationship between accounts"
+type OperatorOwner @entity {
+	"Internal ID used for indexation"
+	id: ID! # Set to `${owner.id}-${operator.id}`
+
+	"Owner of the tokens"
+	owner: Account
+
+	"Approved to transfer tokens"
+	operator: Account!
+
+	"Was approved"
+	approved: Boolean
+}
+
+
 interface Erc721Token {
 	"Internal ID used for indexation"
 	id: ID!
