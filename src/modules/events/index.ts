@@ -1,5 +1,5 @@
 import { ADDRESS_ZERO } from "@protofire/subgraph-toolkit"
-import { Approval, Erc721Transaction } from "../../../generated/schema"
+import { Approval, ApprovalForAll, Erc721Transaction } from "../../../generated/schema"
 
 export namespace events {
 
@@ -8,6 +8,23 @@ export namespace events {
 			from: string, to: string, timestamp: string
 		): string {
 			return from + "-" + to + "-" + timestamp
+		}
+	}
+
+	export namespace operators {
+		export function getOrCreateApprovalForAll(
+			operator: string, owner: string, timestamp: string,
+			operatorOwner: string, transaction: string, block: string
+		): ApprovalForAll {
+			let id = helpers.getNewId(operator, owner, timestamp)
+			let entity = ApprovalForAll.load(id)
+			if (entity == null) {
+				entity = new ApprovalForAll(id)
+				entity.operatorOwner = operatorOwner
+				entity.transaction = transaction
+				entity.block = block
+			}
+			return entity as ApprovalForAll
 		}
 	}
 
