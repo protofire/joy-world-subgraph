@@ -1,5 +1,5 @@
 import { BigInt, Bytes } from "@graphprotocol/graph-ts"
-import { accounts, tokens, transactions } from "../../modules"
+import { accounts, tokens, events } from "../../modules"
 
 export namespace joyWorld {
 	export namespace transfers {
@@ -14,7 +14,7 @@ export namespace joyWorld {
 			let token = tokens.joyTokens.mintToken(tokenId, "account.id")
 			token.save()
 
-			let transaction = transactions.getNewMint(
+			let transaction = events.transactions.getNewMint(
 				account.id, tokenId, timestamp.toString(), blockId, transactionId
 			)
 			transaction.save()
@@ -32,7 +32,7 @@ export namespace joyWorld {
 			let token = tokens.joyTokens.burnToken(tokenId, "account.id")
 			token.save()
 
-			let transaction = transactions.getNewBurn(
+			let transaction = events.transactions.getNewBurn(
 				account.id, tokenId, timestamp.toString(), blockId, transactionId
 			)
 			transaction.save()
@@ -52,7 +52,7 @@ export namespace joyWorld {
 			let token = tokens.joyTokens.changeOwner(tokenId, "buyer.id")
 			token.save()
 
-			let transaction = transactions.getNewTransfer(
+			let transaction = events.transactions.getNewTransfer(
 				seller.id, buyer.id, tokenId, timestamp.toString(), blockId, transactionId
 			)
 			transaction.save()

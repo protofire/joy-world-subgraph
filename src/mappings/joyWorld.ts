@@ -8,9 +8,45 @@ import { metadata } from "../modules";
 
 import { joyWorld as joyWorldHelpers } from "./helpers";
 
-export function handleApproval(event: Approval): void { }
+export function handleApproval(event: Approval): void {
+	let blockNumber = event.block.number
+	let blockId = blockNumber.toString()
+	let txHash = event.transaction.hash
+	let timestamp = event.block.timestamp
 
-export function handleApprovalForAll(event: ApprovalForAll): void { }
+	let block = metadata.blocks.getOrCreateBlock(blockId, timestamp, blockNumber)
+	block.save()
+
+	let transaction = metadata.transactions.getOrCreateTransaction(
+		txHash.toHexString(),
+		blockId,
+		txHash,
+		event.transaction.from,
+		event.transaction.gasLimit,
+		event.transaction.gasPrice,
+	)
+	transaction.save()
+}
+
+export function handleApprovalForAll(event: ApprovalForAll): void {
+	let blockNumber = event.block.number
+	let blockId = blockNumber.toString()
+	let txHash = event.transaction.hash
+	let timestamp = event.block.timestamp
+
+	let block = metadata.blocks.getOrCreateBlock(blockId, timestamp, blockNumber)
+	block.save()
+
+	let transaction = metadata.transactions.getOrCreateTransaction(
+		txHash.toHexString(),
+		blockId,
+		txHash,
+		event.transaction.from,
+		event.transaction.gasLimit,
+		event.transaction.gasPrice,
+	)
+	transaction.save()
+}
 
 export function handleTransfer(event: Transfer): void {
 	let from = event.params.from.toHex()

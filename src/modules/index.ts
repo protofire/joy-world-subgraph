@@ -1,4 +1,4 @@
 export * from "./accounts"
 export * from "./metadata"
 export * from "./tokens"
-export * from "./transactions"
+export * from "./events"
