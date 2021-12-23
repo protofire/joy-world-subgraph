@@ -1,5 +1,4 @@
 import { ADDRESS_ZERO } from "@protofire/subgraph-toolkit";
-import { OwnershipRenounced__Params } from "../../../opensea-wyvern-exchange-subgraph/generated/openseaWyvernExchange/openseaWyvernExchange";
 import {
 	Approval,
 	ApprovalForAll,
@@ -55,6 +54,8 @@ export function handleApproval(event: Approval): void {
 }
 
 export function handleApprovalForAll(event: ApprovalForAll): void {
+	let ownerAddress = event.params.owner
+	let operatorAddress = event.params.operator
 	let blockNumber = event.block.number
 	let blockId = blockNumber.toString()
 	let txHash = event.transaction.hash
@@ -72,6 +73,27 @@ export function handleApprovalForAll(event: ApprovalForAll): void {
 		event.transaction.gasPrice,
 	)
 	transaction.save()
+
+	let owner = accounts.getOrCreateAccount(ownerAddress)
+	owner.save()
+
+	let operator = accounts.getOrCreateAccount(operatorAddress)
+	operator.save()
+
+	let operatorOwner = accounts.getOrCreateOperatorOwner(
+		owner.id, operator.id, event.params.approved
+	)
+	operatorOwner.save()
+
+	let approvalForAll = events.operators.getOrCreateApprovalForAll(
+		operator.id,
+		owner.id,
+		timestamp.toString(),
+		operatorOwner.id,
+		transaction.id,
+		block.id
+	)
+	approvalForAll.save()
 }
 
 export function handleTransfer(event: Transfer): void {
