@@ -1,14 +1,20 @@
 import { ADDRESS_ZERO } from "@protofire/subgraph-toolkit";
+import { OwnershipRenounced__Params } from "../../../opensea-wyvern-exchange-subgraph/generated/openseaWyvernExchange/openseaWyvernExchange";
 import {
 	Approval,
 	ApprovalForAll,
 	Transfer
 } from "../../generated/joyWorld/joyWorld";
-import { metadata } from "../modules";
+import { events, metadata } from "../modules";
 
 import { joyWorld as joyWorldHelpers } from "./helpers";
 
 export function handleApproval(event: Approval): void {
+	let ownerId = event.params.owner.toHex()
+	let approvedId = event.params.approved.toHex()
+	let tokenId = event.params.tokenId.toHex()
+
+
 	let blockNumber = event.block.number
 	let blockId = blockNumber.toString()
 	let txHash = event.transaction.hash
@@ -26,6 +32,16 @@ export function handleApproval(event: Approval): void {
 		event.transaction.gasPrice,
 	)
 	transaction.save()
+
+	let approval = events.approvals.getOrCreateApproval(
+		approvedId,
+		ownerId,
+		timestamp.toString(),
+		tokenId,
+		transaction.id,
+		block.id
+	)
+	approval.save()
 }
 
 export function handleApprovalForAll(event: ApprovalForAll): void {
