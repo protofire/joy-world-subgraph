@@ -48,9 +48,9 @@ export namespace tokens {
 	export namespace joyToys {
 		export function getOrCreateToken(_tokenId: string, accountId: string): JoyToy {
 			let tokenId = shared.constants.joyToys.JOY_TOYS_PREFIX.concat(_tokenId)
-			let entity = JoyToken.load(tokenId)
+			let entity = JoyToy.load(tokenId)
 			if (entity == null) {
-				entity = new JoyToken(tokenId)
+				entity = new JoyToy(tokenId)
 				entity.owner = accountId
 			}
 			return entity as JoyToy
