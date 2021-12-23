@@ -5,13 +5,13 @@ import {
 	ApprovalForAll,
 	Transfer
 } from "../../generated/joyWorld/joyWorld";
-import { events, metadata } from "../modules";
+import { accounts, events, metadata, tokens } from "../modules";
 
 import { joyWorld as joyWorldHelpers } from "./helpers";
 
 export function handleApproval(event: Approval): void {
-	let ownerId = event.params.owner.toHex()
-	let approvedId = event.params.approved.toHex()
+	let ownerAddress = event.params.owner
+	let approvedAddress = event.params.approved
 	let tokenId = event.params.tokenId.toHex()
 
 
@@ -34,14 +34,24 @@ export function handleApproval(event: Approval): void {
 	transaction.save()
 
 	let approval = events.approvals.getOrCreateApproval(
-		approvedId,
-		ownerId,
+		approvedAddress.toHex(),
+		ownerAddress.toHex(),
 		timestamp.toString(),
 		tokenId,
 		transaction.id,
 		block.id
 	)
 	approval.save()
+
+
+	let approved = accounts.getOrCreateAccount(approvedAddress)
+	approved.save()
+
+	let owner = accounts.getOrCreateAccount(ownerAddress)
+	owner.save()
+
+	let token = tokens.joyTokens.setApproval(tokenId, approved.id, owner.id)
+	token.save()
 }
 
 export function handleApprovalForAll(event: ApprovalForAll): void {
