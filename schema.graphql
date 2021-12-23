@@ -2,6 +2,12 @@
 interface Event {
 	"Internal ID used for indexation"
 	id: ID!
+
+	"related block"
+	block: Block
+
+	"related evm transaction"
+	transaction: Transaction
 }
 
 "Erc721Transaction types"
@@ -131,6 +137,20 @@ interface Erc721Token {
 }
 
 type JoyToken implements Erc721Token @entity{
+	"Internal ID used for indexation"
+	id: ID!
+
+	"Token's current owner"
+	owner: Account!
+
+	"Current approval"
+	approval: Account
+
+	"Current burned status"
+	burned: Boolean
+}
+
+type JoyToy implements Erc721Token @entity{
 	"Internal ID used for indexation"
 	id: ID!
 
