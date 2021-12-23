@@ -1,11 +1,12 @@
 import { ADDRESS_ZERO } from '@protofire/subgraph-toolkit'
+import { shared } from '..';
 import { JoyToken, JoyToy } from "../../../generated/schema";
 
 export namespace tokens {
 
 	export namespace joyTokens {
 		export function getOrCreateToken(_tokenId: string, accountId: string): JoyToken {
-			let tokenId = "joyToken-".concat(_tokenId)
+			let tokenId = shared.constants.joyWorld.JOY_WORLD_PREFIX.concat(_tokenId)
 			let entity = JoyToken.load(tokenId)
 			if (entity == null) {
 				entity = new JoyToken(tokenId)
@@ -46,7 +47,7 @@ export namespace tokens {
 	}
 	export namespace joyToys {
 		export function getOrCreateToken(_tokenId: string, accountId: string): JoyToy {
-			let tokenId = "joyToy-".concat(_tokenId)
+			let tokenId = shared.constants.joyToys.JOY_TOYS_PREFIX.concat(_tokenId)
 			let entity = JoyToken.load(tokenId)
 			if (entity == null) {
 				entity = new JoyToken(tokenId)
