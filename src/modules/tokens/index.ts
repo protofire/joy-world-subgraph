@@ -1,5 +1,4 @@
 import { ADDRESS_ZERO } from '@protofire/subgraph-toolkit'
-import { shared } from '..';
 import { JoyToken, JoyToy } from "../../../generated/schema";
 
 export namespace tokens {

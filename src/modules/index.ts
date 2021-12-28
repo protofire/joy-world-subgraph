@@ -1,6 +1,5 @@
 export * from "./accounts"
 export * from "./metadata"
-export * from "./shared"
 export * from "./tests"
 export * from "./tokens"
 export * from "./events"
