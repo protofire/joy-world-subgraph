@@ -53,7 +53,7 @@ export function handleApproval(event: Approval): void {
 	let owner = accounts.getOrCreateAccount(ownerAddress)
 	owner.save()
 
-	let token = tokens.joyWorld.setApproval(tokenId, approved.id, owner.id)
+	let token = tokens.joyWorld.setApproval(contractAddress, tokenId, approved.id, owner.id)
 	token.save()
 }
 
@@ -122,7 +122,7 @@ export function handleTransfer(event: Transfer): void {
 
 	let transaction = metadata.transactions.getOrCreateTransaction(
 		txHash.toHexString(),
-		blockId,
+		block.id,
 		txHash,
 		event.transaction.from,
 		event.transaction.gasLimit,

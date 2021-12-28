@@ -7,7 +7,7 @@ export namespace metadata {
 		export function getNewMetadataId(
 			sourceContractAddress: string,
 			_id: string
-		) {
+		): string {
 			return sourceContractAddress + "-" + _id
 		}
 	}

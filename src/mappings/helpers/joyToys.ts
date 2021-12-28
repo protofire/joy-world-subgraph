@@ -12,7 +12,7 @@ export namespace joyToys {
 			let account = accounts.getOrCreateAccount(to)
 			account.save()
 
-			let token = tokens.joyToys.mintToken(tokenId, account.id)
+			let token = tokens.joyToys.mintToken(sourceContractAddress, tokenId, account.id)
 			token.save()
 
 			let transaction = events.transactions.getNewMint(
@@ -32,7 +32,7 @@ export namespace joyToys {
 			let account = accounts.getOrCreateAccount(from)
 			account.save()
 
-			let token = tokens.joyToys.burnToken(tokenId, account.id)
+			let token = tokens.joyToys.burnToken(sourceContractAddress, tokenId, account.id)
 			token.save()
 
 			let transaction = events.transactions.getNewBurn(
@@ -54,7 +54,7 @@ export namespace joyToys {
 			let buyer = accounts.getOrCreateAccount(to)
 			buyer.save()
 
-			let token = tokens.joyToys.changeOwner(tokenId, buyer.id)
+			let token = tokens.joyToys.changeOwner(sourceContractAddress, tokenId, buyer.id)
 			token.save()
 
 			let transaction = events.transactions.getNewTransfer(
