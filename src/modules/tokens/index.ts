@@ -4,7 +4,7 @@ import { JoyToken, JoyToy } from "../../../generated/schema";
 
 export namespace tokens {
 
-	export namespace joyTokens {
+	export namespace joyWorld {
 		export function getOrCreateToken(_tokenId: string, accountId: string): JoyToken {
 			let tokenId = shared.constants.joyWorld.JOY_WORLD_PREFIX.concat(_tokenId)
 			let entity = JoyToken.load(tokenId)
