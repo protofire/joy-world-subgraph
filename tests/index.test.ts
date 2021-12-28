@@ -1,3 +1,3 @@
-import { runJoyWorldTests } from "./joyWorld.test";
+import { joyWorld } from "./joyWorld";
 
-runJoyWorldTests()
+joyWorld.runtTests()
