@@ -22,7 +22,6 @@ export namespace joyWorld {
 			transaction.save()
 		}
 
-
 		export function handleBurn(
 			sourceContractAddress: string,
 			from: Bytes, tokenId: string,

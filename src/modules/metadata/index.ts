@@ -2,11 +2,22 @@ import { BigInt, Bytes } from "@graphprotocol/graph-ts"
 import { Block, Transaction } from "../../../generated/schema"
 
 export namespace metadata {
+
+	export namespace helpers {
+		export function getNewMetadataId(
+			sourceContractAddress: string,
+			_id: string
+		) {
+			return sourceContractAddress + "-" + _id
+		}
+	}
 	export namespace transactions {
 		export function getOrCreateTransaction(
-			id: string, blockId: string, hash: Bytes,
-			from: Bytes, gasLimit: BigInt, gasPrice: BigInt
+			_id: string, blockId: string, hash: Bytes,
+			from: Bytes, gasLimit: BigInt,
+			gasPrice: BigInt, sourceContractAddress: string
 		): Transaction {
+			let id = helpers.getNewMetadataId(sourceContractAddress, _id)
 			let meta = Transaction.load(id)
 			if (meta == null) {
 				meta = new Transaction(id)
@@ -22,8 +33,10 @@ export namespace metadata {
 
 	export namespace blocks {
 		export function getOrCreateBlock(
-			id: string, timestamp: BigInt, number: BigInt
+			_id: string, timestamp: BigInt,
+			number: BigInt, sourceContractAddress: string
 		): Block {
+			let id = helpers.getNewMetadataId(sourceContractAddress, _id)
 			let block = Block.load(id)
 			if (block == null) {
 				block = new Block(id)
