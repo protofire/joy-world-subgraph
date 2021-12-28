@@ -4,6 +4,7 @@ import { clearStore, test, assert } from "matchstick-as/assembly/index"
 import { Transfer } from "../generated/joyWorld/joyWorld"
 import { mappings } from "./mappingsWrapper"
 import { events, metadata, tests as testsModule, tokens } from "../src/modules"
+import { helpers } from "./helpers"
 
 export function runJoyWorldTests(): void {
 	test("joyWorld - handleMint",
@@ -25,8 +26,9 @@ export function runJoyWorldTests(): void {
 
 			// check block
 			let blockId = metadata.helpers.getNewMetadataId(event.address.toHex(), event.block.number.toString())
-			assert.fieldEquals("Block", blockId, "timestamp", event.block.timestamp.toString())
-			assert.fieldEquals("Block", blockId, "number", event.block.number.toString())
+			helpers.testBlock(
+				blockId, event.block.timestamp.toString(), event.block.number.toString()
+			)
 
 			// check meta
 			let txHash = event.transaction.hash.toHexString()
