@@ -50,7 +50,7 @@ export namespace events {
 
 	export namespace transactions {
 
-		namespace constants {
+		export namespace constants {
 			export let TRANSACTION_MINT = "MINT"
 			export let TRANSACTION_BURN = "BURN"
 			export let TRANSACTION_TRANSFER = "TRANSFER"
@@ -58,9 +58,9 @@ export namespace events {
 
 
 		export function getNewMint(
+			sourceContractAddress: string,
 			to: string, token: string,
 			timestamp: string, blockId: string, transactionId: string,
-			sourceContractAddress: string
 		): Erc721Transaction {
 			let transaction = new Erc721Transaction(helpers.getNewEventId(
 				sourceContractAddress, ADDRESS_ZERO, to, timestamp)
@@ -75,9 +75,9 @@ export namespace events {
 		}
 
 		export function getNewBurn(
+			sourceContractAddress: string,
 			from: string, token: string,
 			timestamp: string, blockId: string, transactionId: string,
-			sourceContractAddress: string
 		): Erc721Transaction {
 			let transaction = new Erc721Transaction(helpers.getNewEventId(
 				sourceContractAddress, from, ADDRESS_ZERO, timestamp)
@@ -92,10 +92,10 @@ export namespace events {
 		}
 
 		export function getNewTransfer(
+			sourceContractAddress: string,
 			from: string, to: string,
 			token: string, timestamp: string,
 			blockId: string, transactionId: string,
-			sourceContractAddress: string
 		): Erc721Transaction {
 			let transaction = new Erc721Transaction(helpers.getNewEventId(
 				sourceContractAddress, from, to, timestamp)

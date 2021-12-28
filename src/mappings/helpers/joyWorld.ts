@@ -12,7 +12,7 @@ export namespace joyWorld {
 			let account = accounts.getOrCreateAccount(to)
 			account.save()
 
-			let token = tokens.joyToys.mintToken(tokenId, account.id)
+			let token = tokens.joyWorld.mintToken(tokenId, account.id)
 			token.save()
 
 			let transaction = events.transactions.getNewMint(

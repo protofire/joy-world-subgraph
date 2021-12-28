@@ -122,7 +122,7 @@ export function handleTransfer(event: Transfer): void {
 
 	let transaction = metadata.transactions.getOrCreateTransaction(
 		txHash.toHexString(),
-		blockId,
+		block.id,
 		txHash,
 		event.transaction.from,
 		event.transaction.gasLimit,
