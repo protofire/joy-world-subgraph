@@ -1,9 +1,9 @@
-import { Address, BigInt } from "@graphprotocol/graph-ts"
+import { Address, BigInt, TypedMap } from "@graphprotocol/graph-ts"
 import { ADDRESS_ZERO } from "@protofire/subgraph-toolkit"
 import { clearStore, test, assert } from "matchstick-as/assembly/index"
 import { Transfer } from "../generated/joyWorld/joyWorld"
 import { mappings } from "./mappingsWrapper"
-import { events, metadata, tests as testsModule, tokens } from "../src/modules"
+import { events, metadata, tests, tests as testsModule, tokens } from "../src/modules"
 import { helpers } from "./helpers"
 
 export function runJoyWorldTests(): void {
@@ -43,25 +43,20 @@ export function runJoyWorldTests(): void {
 			// check transaction event
 			let timestampString = event.block.timestamp.toString()
 			let erc721txId = events.helpers.getNewEventId(contractAddress, ADDRESS_ZERO, toAsHex, timestampString)
-			assert.fieldEquals("Erc721Transaction", erc721txId, "from", event.params.from.toHex())
-			assert.fieldEquals("Erc721Transaction", erc721txId, "to", toAsHex)
-			assert.fieldEquals("Erc721Transaction", erc721txId, "token", event.params.tokenId.toHex())
-			assert.fieldEquals("Erc721Transaction", erc721txId, "block", blockId)
-			assert.fieldEquals("Erc721Transaction", erc721txId, "transaction", txId)
-			assert.fieldEquals("Erc721Transaction", erc721txId, "type", events.transactions.constants.TRANSACTION_MINT)
+
+			helpers.testErc721Tx(
+				erc721txId,
+				event.params.from.toHex(),
+				toAsHex,
+				event.params.tokenId.toHex(),
+				blockId,
+				txId,
+				events.transactions.constants.TRANSACTION_MINT
+			)
 
 			// check token
 			let entityTokenId = tokens.helpers.getTokenId(contractAddress, tokenId.toHex())
 			assert.fieldEquals("JoyToken", entityTokenId, "owner", toAsHex)
-
-			// TODO
-			/**
-			 * Create a generic assert helper
-			 * params:
-			 * * entityName: string
-			 * * entityId: string
-			 * * fields: Array<TypedMap(key: string, vale: string)>
-			 */
 
 			clearStore()
 		}

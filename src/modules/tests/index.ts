@@ -1,9 +1,22 @@
-import { Address, Bytes, BigInt, ethereum } from "@graphprotocol/graph-ts"
-import { newMockEvent } from "matchstick-as"
+import { Address, Bytes, BigInt, ethereum, TypedMap } from "@graphprotocol/graph-ts"
+import { newMockEvent, assert } from "matchstick-as"
 
 export namespace tests {
-
 	export namespace helpers {
+		export namespace runtime {
+
+			export function assertMany(
+				entityName: string,
+				entityId: string,
+				fields: TypedMap<string, string>
+			): void {
+				for (let index = 0; index < fields.entries.length; index++) {
+					let entry = fields.entries[index];
+					assert.fieldEquals(entityName, entityId, entry.key, entry.value)
+				}
+			}
+		}
+
 
 		function getNewParam(name: string, value: ethereum.Value): ethereum.EventParam {
 			return new ethereum.EventParam(name, value)
