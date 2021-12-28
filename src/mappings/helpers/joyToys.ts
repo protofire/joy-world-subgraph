@@ -4,6 +4,7 @@ import { accounts, tokens, events } from "../../modules"
 export namespace joyToys {
 	export namespace transfers {
 		export function handleMint(
+			sourceContractAddress: string,
 			to: Bytes, tokenId: string,
 			timestamp: BigInt, blockId: string,
 			transactionId: string
@@ -15,13 +16,15 @@ export namespace joyToys {
 			token.save()
 
 			let transaction = events.transactions.getNewMint(
-				account.id, tokenId, timestamp.toString(), blockId, transactionId
+				account.id, tokenId, timestamp.toString(),
+				blockId, transactionId, sourceContractAddress
 			)
 			transaction.save()
 		}
 
 
 		export function handleBurn(
+			sourceContractAddress: string,
 			from: Bytes, tokenId: string,
 			timestamp: BigInt, blockId: string,
 			transactionId: string
@@ -33,15 +36,17 @@ export namespace joyToys {
 			token.save()
 
 			let transaction = events.transactions.getNewBurn(
-				account.id, tokenId, timestamp.toString(), blockId, transactionId
+				account.id, tokenId, timestamp.toString(),
+				blockId, transactionId, sourceContractAddress
 			)
 			transaction.save()
 		}
 
 		export function handleRegularTransfer(
+			sourceContractAddress: string,
 			from: Bytes, to: Bytes,
 			tokenId: string, timestamp: BigInt,
-			blockId: string, transactionId: string
+			blockId: string, transactionId: string,
 		): void {
 			let seller = accounts.getOrCreateAccount(from)
 			seller.save()
@@ -53,7 +58,8 @@ export namespace joyToys {
 			token.save()
 
 			let transaction = events.transactions.getNewTransfer(
-				seller.id, buyer.id, tokenId, timestamp.toString(), blockId, transactionId
+				seller.id, buyer.id, tokenId, timestamp.toString(),
+				blockId, transactionId, sourceContractAddress
 			)
 			transaction.save()
 		}

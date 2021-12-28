@@ -9,17 +9,19 @@ import { accounts, events, metadata, tokens } from "../modules";
 import { joyToys as joyToysHelpers } from "./helpers";
 
 export function handleApproval(event: Approval): void {
+	let contractAddress = event.address.toHex()
 	let ownerAddress = event.params.owner
 	let approvedAddress = event.params.approved
 	let tokenId = event.params.tokenId.toHex()
-
 
 	let blockNumber = event.block.number
 	let blockId = blockNumber.toString()
 	let txHash = event.transaction.hash
 	let timestamp = event.block.timestamp
 
-	let block = metadata.blocks.getOrCreateBlock(blockId, timestamp, blockNumber)
+	let block = metadata.blocks.getOrCreateBlock(
+		blockId, timestamp, blockNumber, contractAddress
+	)
 	block.save()
 
 	let transaction = metadata.transactions.getOrCreateTransaction(
@@ -29,10 +31,12 @@ export function handleApproval(event: Approval): void {
 		event.transaction.from,
 		event.transaction.gasLimit,
 		event.transaction.gasPrice,
+		contractAddress
 	)
 	transaction.save()
 
 	let approval = events.approvals.getOrCreateApproval(
+		contractAddress,
 		approvedAddress.toHex(),
 		ownerAddress.toHex(),
 		timestamp.toString(),
@@ -53,6 +57,7 @@ export function handleApproval(event: Approval): void {
 }
 
 export function handleApprovalForAll(event: ApprovalForAll): void {
+	let contractAddress = event.address.toHex()
 	let ownerAddress = event.params.owner
 	let operatorAddress = event.params.operator
 	let blockNumber = event.block.number
@@ -60,7 +65,9 @@ export function handleApprovalForAll(event: ApprovalForAll): void {
 	let txHash = event.transaction.hash
 	let timestamp = event.block.timestamp
 
-	let block = metadata.blocks.getOrCreateBlock(blockId, timestamp, blockNumber)
+	let block = metadata.blocks.getOrCreateBlock(
+		blockId, timestamp, blockNumber, contractAddress
+	)
 	block.save()
 
 	let transaction = metadata.transactions.getOrCreateTransaction(
@@ -70,6 +77,7 @@ export function handleApprovalForAll(event: ApprovalForAll): void {
 		event.transaction.from,
 		event.transaction.gasLimit,
 		event.transaction.gasPrice,
+		contractAddress
 	)
 	transaction.save()
 
@@ -85,6 +93,7 @@ export function handleApprovalForAll(event: ApprovalForAll): void {
 	operatorOwner.save()
 
 	let approvalForAll = events.operators.getOrCreateApprovalForAll(
+		contractAddress,
 		operator.id,
 		owner.id,
 		timestamp.toString(),
@@ -96,6 +105,7 @@ export function handleApprovalForAll(event: ApprovalForAll): void {
 }
 
 export function handleTransfer(event: Transfer): void {
+	let contractAddress = event.address.toHex()
 	let from = event.params.from.toHex()
 	let to = event.params.to.toHex()
 	let tokenId = event.params.tokenId.toHex()
@@ -104,7 +114,9 @@ export function handleTransfer(event: Transfer): void {
 	let txHash = event.transaction.hash
 	let timestamp = event.block.timestamp
 
-	let block = metadata.blocks.getOrCreateBlock(blockId, timestamp, blockNumber)
+	let block = metadata.blocks.getOrCreateBlock(
+		blockId, timestamp, blockNumber, contractAddress
+	)
 	block.save()
 
 	let transaction = metadata.transactions.getOrCreateTransaction(
@@ -114,20 +126,24 @@ export function handleTransfer(event: Transfer): void {
 		event.transaction.from,
 		event.transaction.gasLimit,
 		event.transaction.gasPrice,
+		contractAddress
 	)
 	transaction.save()
 
 	if (from == ADDRESS_ZERO) {
 		joyToysHelpers.transfers.handleMint(
-			event.params.to, tokenId, timestamp, block.id, transaction.id
+			contractAddress, event.params.to, tokenId,
+			timestamp, block.id, transaction.id
 		)
 	} else if (to == ADDRESS_ZERO) {
 		joyToysHelpers.transfers.handleBurn(
-			event.params.from, tokenId, timestamp, block.id, transaction.id
+			contractAddress, event.params.from, tokenId,
+			timestamp, block.id, transaction.id
 		)
 	} else {
 		joyToysHelpers.transfers.handleRegularTransfer(
-			event.params.from, event.params.to, tokenId, timestamp, block.id, transaction.id
+			contractAddress, event.params.from, event.params.to,
+			tokenId, timestamp, block.id, transaction.id
 		)
 	}
 }
