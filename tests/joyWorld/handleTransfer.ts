@@ -1,8 +1,7 @@
 import { Address, BigInt } from "@graphprotocol/graph-ts"
-import { ADDRESS_ZERO } from "@protofire/subgraph-toolkit"
 import { clearStore, assert } from "matchstick-as/assembly/index"
 import { Transfer } from "../../generated/joyWorld/joyWorld"
-import { mappings } from "../mappingsWrapper"
+import { mappings } from "../helpers/mappingsWrapper"
 import { events, metadata, tests, tokens } from "../../src/modules"
 import { helpers } from "../helpers"
 
