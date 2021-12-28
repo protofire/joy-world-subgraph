@@ -26,19 +26,19 @@ export function runJoyWorldTests(): void {
 
 			// check block
 			let blockId = metadata.helpers.getNewMetadataId(event.address.toHex(), event.block.number.toString())
+
 			helpers.testBlock(
 				blockId, event.block.timestamp.toString(), event.block.number.toString()
 			)
 
-			// check meta
+			// check evm transaction
 			let txHash = event.transaction.hash.toHexString()
 			let txId = metadata.helpers.getNewMetadataId(contractAddress, txHash)
 
-			assert.fieldEquals("Transaction", txId, "block", blockId)
-			assert.fieldEquals("Transaction", txId, "hash", txHash)
-			assert.fieldEquals("Transaction", txId, "from", event.transaction.from.toHexString())
-			assert.fieldEquals("Transaction", txId, "gasLimit", event.transaction.gasLimit.toString())
-			assert.fieldEquals("Transaction", txId, "gasPrice", event.transaction.gasPrice.toString())
+			helpers.testTransaction(
+				txId, blockId, txHash, event.transaction.from.toHexString(),
+				event.transaction.gasLimit.toString(), event.transaction.gasPrice.toString()
+			)
 
 			// check transaction event
 			let timestampString = event.block.timestamp.toString()
@@ -53,6 +53,15 @@ export function runJoyWorldTests(): void {
 			// check token
 			let entityTokenId = tokens.helpers.getTokenId(contractAddress, tokenId.toHex())
 			assert.fieldEquals("JoyToken", entityTokenId, "owner", toAsHex)
+
+			// TODO
+			/**
+			 * Create a generic assert helper
+			 * params:
+			 * * entityName: string
+			 * * entityId: string
+			 * * fields: Array<TypedMap(key: string, vale: string)>
+			 */
 
 			clearStore()
 		}
