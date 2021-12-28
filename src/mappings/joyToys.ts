@@ -52,7 +52,7 @@ export function handleApproval(event: Approval): void {
 	let owner = accounts.getOrCreateAccount(ownerAddress)
 	owner.save()
 
-	let token = tokens.joyToys.setApproval(tokenId, approved.id, owner.id)
+	let token = tokens.joyToys.setApproval(contractAddress, tokenId, approved.id, owner.id)
 	token.save()
 }
 
