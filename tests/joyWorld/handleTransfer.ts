@@ -6,9 +6,9 @@ import { mappings } from "../mappingsWrapper"
 import { events, metadata, tests, tokens } from "../../src/modules"
 import { helpers } from "../helpers"
 
-export function testHandleMint(): void {
-	let from = Address.fromString(ADDRESS_ZERO)
-	let to = Address.fromString("0x7b7cc10852f215bcea3e684ef584eb2b7c24b8f7")
+export function testHandleTransfer(): void {
+	let from = Address.fromString("0x7b7cc10852f215bcea3e684ef584eb2b7c24b8f7")
+	let to = Address.fromString("0x9b9cc10852f215bcea3e684ef584eb2b7c24abc9")
 	let tokenId = BigInt.fromI32(666)
 
 	let event = changetype<Transfer>(tests.helpers.events.getNewEvent(
@@ -22,11 +22,13 @@ export function testHandleMint(): void {
 	mappings.joyWorld.handleTransfer(event)
 
 	let contractAddress = event.address.toHex()
-	let fromAsHex = from.toHex()
 	let toAsHex = to.toHex()
+	let fromAsHex = from.toHex()
 
 	// check block
-	let blockId = metadata.helpers.getNewMetadataId(contractAddress, event.block.number.toString())
+	let blockId = metadata.helpers.getNewMetadataId(
+		contractAddress, event.block.number.toString()
+	)
 
 	helpers.testBlock(
 		blockId, event.block.timestamp.toString(), event.block.number.toString()
@@ -43,7 +45,9 @@ export function testHandleMint(): void {
 
 	// check transaction event
 	let timestampString = event.block.timestamp.toString()
-	let erc721txId = events.helpers.getNewEventId(contractAddress, fromAsHex, toAsHex, timestampString)
+	let erc721txId = events.helpers.getNewEventId(
+		contractAddress, fromAsHex, toAsHex, timestampString
+	)
 
 	helpers.testErc721Tx(
 		erc721txId,
@@ -52,14 +56,14 @@ export function testHandleMint(): void {
 		event.params.tokenId.toHex(),
 		blockId,
 		txId,
-		events.transactions.constants.TRANSACTION_MINT
+		events.transactions.constants.TRANSACTION_TRANSFER
 	)
 
 	// check token
 	let entityTokenId = tokens.helpers.getTokenId(contractAddress, tokenId.toHex())
 	assert.fieldEquals("JoyToken", entityTokenId, "owner", toAsHex)
 
-	// TODO test minter
+	// TODO test accounts
 
 	clearStore()
 }

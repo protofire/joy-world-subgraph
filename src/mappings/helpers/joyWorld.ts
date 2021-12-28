@@ -53,7 +53,7 @@ export namespace joyWorld {
 			let buyer = accounts.getOrCreateAccount(to)
 			buyer.save()
 
-			let token = tokens.joyToys.changeOwner(sourceContractAddress, tokenId, buyer.id)
+			let token = tokens.joyWorld.changeOwner(sourceContractAddress, tokenId, buyer.id)
 			token.save()
 
 			let transaction = events.transactions.getNewTransfer(
