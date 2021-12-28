@@ -13,7 +13,6 @@ export function handleApproval(event: Approval): void {
 	let approvedAddress = event.params.approved
 	let tokenId = event.params.tokenId.toHex()
 
-
 	let blockNumber = event.block.number
 	let blockId = blockNumber.toString()
 	let txHash = event.transaction.hash
@@ -33,6 +32,7 @@ export function handleApproval(event: Approval): void {
 	transaction.save()
 
 	let approval = events.approvals.getOrCreateApproval(
+		event.address.toHex(),
 		approvedAddress.toHex(),
 		ownerAddress.toHex(),
 		timestamp.toString(),
@@ -86,6 +86,7 @@ export function handleApprovalForAll(event: ApprovalForAll): void {
 	operatorOwner.save()
 
 	let approvalForAll = events.operators.getOrCreateApprovalForAll(
+		event.address.toHex(),
 		operator.id,
 		owner.id,
 		timestamp.toString(),
@@ -97,6 +98,7 @@ export function handleApprovalForAll(event: ApprovalForAll): void {
 }
 
 export function handleTransfer(event: Transfer): void {
+	let contractAddress = event.address.toHex()
 	let from = event.params.from.toHex()
 	let to = event.params.to.toHex()
 	let tokenId = event.params.tokenId.toHex()
@@ -120,15 +122,18 @@ export function handleTransfer(event: Transfer): void {
 
 	if (from == ADDRESS_ZERO) {
 		joyWorldHelpers.transfers.handleMint(
-			event.params.to, tokenId, timestamp, block.id, transaction.id
+			contractAddress, event.params.to,
+			tokenId, timestamp, block.id, transaction.id
 		)
 	} else if (to == ADDRESS_ZERO) {
 		joyWorldHelpers.transfers.handleBurn(
-			event.params.from, tokenId, timestamp, block.id, transaction.id
+			contractAddress, event.params.from, tokenId,
+			timestamp, block.id, transaction.id
 		)
 	} else {
 		joyWorldHelpers.transfers.handleRegularTransfer(
-			event.params.from, event.params.to, tokenId, timestamp, block.id, transaction.id
+			contractAddress, event.params.from, event.params.to,
+			tokenId, timestamp, block.id, transaction.id
 		)
 	}
 }

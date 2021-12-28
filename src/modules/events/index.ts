@@ -4,19 +4,20 @@ import { Approval, ApprovalForAll, Erc721Transaction } from "../../../generated/
 export namespace events {
 
 	export namespace helpers {
-		export function getNewId(
-			from: string, to: string, timestamp: string
+		export function getNewEventId(
+			sourceContractAddress: string, from: string, to: string, timestamp: string
 		): string {
-			return from + "-" + to + "-" + timestamp
+			return sourceContractAddress + "-" + from + "-" + to + "-" + timestamp
 		}
 	}
 
 	export namespace operators {
 		export function getOrCreateApprovalForAll(
 			operator: string, owner: string, timestamp: string,
-			operatorOwner: string, transaction: string, block: string
+			operatorOwner: string, transaction: string, block: string,
+			sourceContractAddress: string
 		): ApprovalForAll {
-			let id = helpers.getNewId(operator, owner, timestamp)
+			let id = helpers.getNewEventId(sourceContractAddress, operator, owner, timestamp)
 			let entity = ApprovalForAll.load(id)
 			if (entity == null) {
 				entity = new ApprovalForAll(id)
@@ -32,9 +33,10 @@ export namespace events {
 
 		export function getOrCreateApproval(
 			approved: string, owner: string, timestamp: string,
-			token: string, transaction: string, block: string
+			token: string, transaction: string, block: string,
+			sourceContractAddress: string
 		): Approval {
-			let id = helpers.getNewId(approved, owner, timestamp)
+			let id = helpers.getNewEventId(sourceContractAddress, approved, owner, timestamp)
 			let entity = Approval.load(id)
 			if (entity == null) {
 				entity = new Approval(id)
@@ -57,9 +59,12 @@ export namespace events {
 
 		export function getNewMint(
 			to: string, token: string,
-			timestamp: string, blockId: string, transactionId: string
+			timestamp: string, blockId: string, transactionId: string,
+			sourceContractAddress: string
 		): Erc721Transaction {
-			let transaction = new Erc721Transaction(helpers.getNewId(ADDRESS_ZERO, to, timestamp))
+			let transaction = new Erc721Transaction(helpers.getNewEventId(
+				sourceContractAddress, ADDRESS_ZERO, to, timestamp)
+			)
 			transaction.from = ADDRESS_ZERO
 			transaction.to = to
 			transaction.token = token
@@ -71,9 +76,12 @@ export namespace events {
 
 		export function getNewBurn(
 			from: string, token: string,
-			timestamp: string, blockId: string, transactionId: string
+			timestamp: string, blockId: string, transactionId: string,
+			sourceContractAddress: string
 		): Erc721Transaction {
-			let transaction = new Erc721Transaction(helpers.getNewId(from, ADDRESS_ZERO, timestamp))
+			let transaction = new Erc721Transaction(helpers.getNewEventId(
+				sourceContractAddress, from, ADDRESS_ZERO, timestamp)
+			)
 			transaction.from = from
 			transaction.to = ADDRESS_ZERO
 			transaction.token = token
@@ -86,9 +94,12 @@ export namespace events {
 		export function getNewTransfer(
 			from: string, to: string,
 			token: string, timestamp: string,
-			blockId: string, transactionId: string
+			blockId: string, transactionId: string,
+			sourceContractAddress: string
 		): Erc721Transaction {
-			let transaction = new Erc721Transaction(helpers.getNewId(from, to, timestamp))
+			let transaction = new Erc721Transaction(helpers.getNewEventId(
+				sourceContractAddress, from, to, timestamp)
+			)
 			transaction.from = from
 			transaction.to = to
 			transaction.token = token
