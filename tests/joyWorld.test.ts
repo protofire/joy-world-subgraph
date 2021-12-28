@@ -3,7 +3,7 @@ import { ADDRESS_ZERO } from "@protofire/subgraph-toolkit"
 import { clearStore, test, assert } from "matchstick-as/assembly/index"
 import { Transfer } from "../generated/joyWorld/joyWorld"
 import { mappings } from "./mappingsWrapper"
-import { events, metadata, tests, tests as testsModule, tokens } from "../src/modules"
+import { events, metadata, tests, tokens } from "../src/modules"
 import { helpers } from "./helpers"
 
 export function runJoyWorldTests(): void {
@@ -13,11 +13,11 @@ export function runJoyWorldTests(): void {
 			let to = Address.fromString("0x7b7cc10852f215bcea3e684ef584eb2b7c24b8f7")
 			let tokenId = BigInt.fromI32(666)
 
-			let event = changetype<Transfer>(testsModule.helpers.events.getNewEvent(
+			let event = changetype<Transfer>(tests.helpers.events.getNewEvent(
 				[
-					testsModule.helpers.params.getAddress("from", from),
-					testsModule.helpers.params.getAddress("to", to),
-					testsModule.helpers.params.getBigInt("tokenId", tokenId)
+					tests.helpers.params.getAddress("from", from),
+					tests.helpers.params.getAddress("to", to),
+					tests.helpers.params.getBigInt("tokenId", tokenId)
 				]
 			))
 			mappings.joyWorld.handleTransfer(event)
