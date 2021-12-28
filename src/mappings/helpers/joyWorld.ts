@@ -31,7 +31,7 @@ export namespace joyWorld {
 			let account = accounts.getOrCreateAccount(from)
 			account.save()
 
-			let token = tokens.joyToys.burnToken(sourceContractAddress, tokenId, account.id)
+			let token = tokens.joyWorld.burnToken(sourceContractAddress, tokenId, account.id)
 			token.save()
 
 			let transaction = events.transactions.getNewBurn(
