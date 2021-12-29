@@ -13,9 +13,9 @@ export namespace events {
 
 	export namespace operators {
 		export function getOrCreateApprovalForAll(
+			sourceContractAddress: string,
 			operator: string, owner: string, timestamp: string,
 			operatorOwner: string, transaction: string, block: string,
-			sourceContractAddress: string
 		): ApprovalForAll {
 			let id = helpers.getNewEventId(sourceContractAddress, operator, owner, timestamp)
 			let entity = ApprovalForAll.load(id)
