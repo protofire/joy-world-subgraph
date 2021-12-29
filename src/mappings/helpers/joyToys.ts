@@ -36,8 +36,8 @@ export namespace joyToys {
 			token.save()
 
 			let transaction = events.transactions.getNewBurn(
-				account.id, tokenId, timestamp.toString(),
-				blockId, transactionId, sourceContractAddress
+				sourceContractAddress, account.id, tokenId,
+				timestamp.toString(), blockId, transactionId,
 			)
 			transaction.save()
 		}
@@ -58,8 +58,8 @@ export namespace joyToys {
 			token.save()
 
 			let transaction = events.transactions.getNewTransfer(
-				seller.id, buyer.id, tokenId, timestamp.toString(),
-				blockId, transactionId, sourceContractAddress
+				sourceContractAddress, seller.id, buyer.id, tokenId,
+				timestamp.toString(), blockId, transactionId
 			)
 			transaction.save()
 		}
