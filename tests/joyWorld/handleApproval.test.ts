@@ -1,9 +1,7 @@
 import { Address, BigInt, TypedMap } from "@graphprotocol/graph-ts"
 import { clearStore, assert } from "matchstick-as/assembly/index"
 import { Approval } from "../../generated/joyWorld/joyWorld"
-import { mappings } from "../helpers/mappingsWrapper"
 import { events, metadata, tests, tokens } from "../../src/modules"
-import { helpers } from "../helpers"
 
 export function testHandleApproval(): void {
 	let owner = Address.fromString("0x7b7cc10852f215bcea3e684ef584eb2b7c24b8f7")
@@ -18,7 +16,7 @@ export function testHandleApproval(): void {
 		]
 	))
 
-	mappings.joyWorld.handleApproval(event)
+	tests.mappingsWrapper.joyWorld.handleApproval(event)
 
 	let contractAddress = event.address.toHex()
 	let ownerAsHex = owner.toHex()
@@ -27,7 +25,7 @@ export function testHandleApproval(): void {
 	// check block
 	let blockId = metadata.helpers.getNewMetadataId(contractAddress, event.block.number.toString())
 
-	helpers.testBlock(
+	tests.helpers.runtime.testBlock(
 		blockId, event.block.timestamp.toString(), event.block.number.toString()
 	)
 
@@ -35,7 +33,7 @@ export function testHandleApproval(): void {
 	let txHash = event.transaction.hash.toHexString()
 	let txId = metadata.helpers.getNewMetadataId(contractAddress, txHash)
 
-	helpers.testTransaction(
+	tests.helpers.runtime.testTransaction(
 		txId, blockId, txHash, event.transaction.from.toHexString(),
 		event.transaction.gasLimit.toString(), event.transaction.gasPrice.toString()
 	)

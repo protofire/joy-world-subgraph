@@ -1,9 +1,7 @@
 import { Address, BigInt } from "@graphprotocol/graph-ts"
 import { clearStore, assert } from "matchstick-as/assembly/index"
 import { Transfer } from "../../generated/joyWorld/joyWorld"
-import { mappings } from "../helpers/mappingsWrapper"
 import { events, metadata, tests, tokens } from "../../src/modules"
-import { helpers } from "../helpers"
 
 export function testHandleTransfer(): void {
 	let from = Address.fromString("0x7b7cc10852f215bcea3e684ef584eb2b7c24b8f7")
@@ -18,7 +16,7 @@ export function testHandleTransfer(): void {
 		]
 	))
 
-	mappings.joyWorld.handleTransfer(event)
+	tests.mappingsWrapper.joyWorld.handleTransfer(event)
 
 	let contractAddress = event.address.toHex()
 	let toAsHex = to.toHex()
@@ -29,7 +27,7 @@ export function testHandleTransfer(): void {
 		contractAddress, event.block.number.toString()
 	)
 
-	helpers.testBlock(
+	tests.helpers.runtime.testBlock(
 		blockId, event.block.timestamp.toString(), event.block.number.toString()
 	)
 
@@ -37,7 +35,7 @@ export function testHandleTransfer(): void {
 	let txHash = event.transaction.hash.toHexString()
 	let txId = metadata.helpers.getNewMetadataId(contractAddress, txHash)
 
-	helpers.testTransaction(
+	tests.helpers.runtime.testTransaction(
 		txId, blockId, txHash, event.transaction.from.toHexString(),
 		event.transaction.gasLimit.toString(), event.transaction.gasPrice.toString()
 	)
@@ -48,7 +46,7 @@ export function testHandleTransfer(): void {
 		contractAddress, fromAsHex, toAsHex, timestampString
 	)
 
-	helpers.testErc721Tx(
+	tests.helpers.runtime.testErc721Tx(
 		erc721txId,
 		fromAsHex,
 		toAsHex,
