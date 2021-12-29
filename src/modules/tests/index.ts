@@ -2,7 +2,8 @@ import { Address, Bytes, BigInt, ethereum, TypedMap } from "@graphprotocol/graph
 import { newMockEvent, assert } from "matchstick-as"
 import {
 	handleTransfer as joyWorldHandleTransfer,
-	handleApproval as joyWorldHandleApproval
+	handleApproval as joyWorldHandleApproval,
+	handleApprovalForAll as joyWorldHandleApprovalForAll
 } from "../../mappings/joyWorld"
 
 export namespace tests {
@@ -11,6 +12,7 @@ export namespace tests {
 		export namespace joyWorld {
 			export let handleTransfer = joyWorldHandleTransfer
 			export let handleApproval = joyWorldHandleApproval
+			export let handleApprovalForAll = joyWorldHandleApprovalForAll
 		}
 	}
 	export namespace helpers {
