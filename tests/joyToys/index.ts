@@ -2,7 +2,7 @@ import { test } from "matchstick-as/assembly/index"
 import { testHandleMint } from "./handleMint.test";
 import { testHandleBurn } from "./handleBurn.test";
 import { testHandleTransfer } from "./handleTransfer.test";
-// import { testHandleApproval } from "./handleApproval.test";
+import { testHandleApproval } from "./handleApproval.test";
 // import { testHandleApprovalForAll } from "./handleApprovalForAll.test";
 
 export namespace joyToys {
@@ -16,9 +16,9 @@ export namespace joyToys {
 		test("joyToys - handleTransfer",
 			testHandleTransfer
 		)
-		// test("joyToys - handleApproval",
-		// 	testHandleApproval
-		// )
+		test("joyToys - handleApproval",
+			testHandleApproval
+		)
 		// test("joyToys - handleApprovalForAll",
 		// 	testHandleApprovalForAll
 		// )
