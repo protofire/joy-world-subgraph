@@ -1,4 +1,4 @@
-import { Bytes } from '@graphprotocol/graph-ts';
+import { Bytes, log } from '@graphprotocol/graph-ts';
 import { Account, OperatorOwner } from '../../../generated/schema'
 
 export namespace accounts {
@@ -6,10 +6,10 @@ export namespace accounts {
 	export namespace helpers {
 
 		export function getOperatorOwnerId(
+			operatorId: string,
 			ownerId: string,
-			operatorId: string
 		): string {
-			return ownerId.concat("-".concat(operatorId))
+			return operatorId + "-" + ownerId
 		}
 	}
 
@@ -24,10 +24,11 @@ export namespace accounts {
 	}
 
 	export function getOrCreateOperatorOwner(
-		ownerId: string, operatorId: string,
+		operatorId: string,
+		ownerId: string,
 		approved: boolean
 	): OperatorOwner {
-		let operatorOwnerId = helpers.getOperatorOwnerId(ownerId, operatorId)
+		let operatorOwnerId = helpers.getOperatorOwnerId(operatorId, ownerId)
 		let operatorOwner = OperatorOwner.load(operatorOwnerId)
 		if (operatorOwner == null) {
 			operatorOwner = new OperatorOwner(operatorOwnerId)

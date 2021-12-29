@@ -3,6 +3,7 @@ import { testHandleMint } from "./handleMint.test";
 import { testHandleBurn } from "./handleBurn.test";
 import { testHandleTransfer } from "./handleTransfer.test";
 import { testHandleApproval } from "./handleApproval.test";
+import { testHandleApprovalForAll } from "./handleApprovalForAll.test";
 
 export namespace joyWorld {
 	export function runtTests(): void {
@@ -17,6 +18,9 @@ export namespace joyWorld {
 		)
 		test("joyWorld - handleApproval",
 			testHandleApproval
+		)
+		test("joyWorld - handleApprovalForAll",
+			testHandleApprovalForAll
 		)
 	}
 }
