@@ -3,7 +3,7 @@ import {
 	Approval,
 	ApprovalForAll,
 	Transfer
-} from "../../generated/joyWorld/joyWorld";
+} from "../../generated/joyToys/joyToys";
 import { accounts, events, metadata, tokens } from "../modules";
 
 import { joyToys as joyToysHelpers } from "./helpers";
@@ -26,7 +26,7 @@ export function handleApproval(event: Approval): void {
 
 	let transaction = metadata.transactions.getOrCreateTransaction(
 		txHash.toHexString(),
-		blockId,
+		block.id,
 		txHash,
 		event.transaction.from,
 		event.transaction.gasLimit,
@@ -34,17 +34,6 @@ export function handleApproval(event: Approval): void {
 		contractAddress
 	)
 	transaction.save()
-
-	let approval = events.approvals.getOrCreateApproval(
-		contractAddress,
-		approvedAddress.toHex(),
-		ownerAddress.toHex(),
-		timestamp.toString(),
-		tokenId,
-		transaction.id,
-		block.id
-	)
-	approval.save()
 
 	let approved = accounts.getOrCreateAccount(approvedAddress)
 	approved.save()
@@ -54,6 +43,18 @@ export function handleApproval(event: Approval): void {
 
 	let token = tokens.joyToys.setApproval(contractAddress, tokenId, approved.id, owner.id)
 	token.save()
+
+	let approval = events.approvals.getOrCreateApproval(
+		contractAddress,
+		approvedAddress.toHex(),
+		ownerAddress.toHex(),
+		timestamp.toString(),
+		token.id,
+		transaction.id,
+		block.id
+	)
+	approval.save()
+
 }
 
 export function handleApprovalForAll(event: ApprovalForAll): void {
@@ -72,7 +73,7 @@ export function handleApprovalForAll(event: ApprovalForAll): void {
 
 	let transaction = metadata.transactions.getOrCreateTransaction(
 		txHash.toHexString(),
-		blockId,
+		block.id,
 		txHash,
 		event.transaction.from,
 		event.transaction.gasLimit,
@@ -88,7 +89,7 @@ export function handleApprovalForAll(event: ApprovalForAll): void {
 	operator.save()
 
 	let operatorOwner = accounts.getOrCreateOperatorOwner(
-		owner.id, operator.id, event.params.approved
+		operator.id, owner.id, event.params.approved
 	)
 	operatorOwner.save()
 
@@ -121,7 +122,7 @@ export function handleTransfer(event: Transfer): void {
 
 	let transaction = metadata.transactions.getOrCreateTransaction(
 		txHash.toHexString(),
-		blockId,
+		block.id,
 		txHash,
 		event.transaction.from,
 		event.transaction.gasLimit,

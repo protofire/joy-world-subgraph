@@ -1,6 +1,6 @@
 import { Address, log, TypedMap } from "@graphprotocol/graph-ts"
 import { clearStore, assert } from "matchstick-as/assembly/index"
-import { ApprovalForAll } from "../../generated/joyWorld/joyWorld"
+import { ApprovalForAll } from "../../generated/joyToys/joyToys"
 import { accounts, events, metadata, tests } from "../../src/modules"
 
 export function testHandleApprovalForAll(): void {
@@ -16,7 +16,7 @@ export function testHandleApprovalForAll(): void {
 		]
 	))
 
-	tests.mappingsWrapper.joyWorld.handleApprovalForAll(event)
+	tests.mappingsWrapper.joyToys.handleApprovalForAll(event)
 
 	let contractAddress = event.address.toHex()
 	let operatorAsHex = operator.toHex()

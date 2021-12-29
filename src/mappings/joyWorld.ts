@@ -1,3 +1,4 @@
+import { log } from "@graphprotocol/graph-ts";
 import { ADDRESS_ZERO } from "@protofire/subgraph-toolkit";
 import {
 	Approval,
@@ -58,8 +59,8 @@ export function handleApproval(event: Approval): void {
 
 export function handleApprovalForAll(event: ApprovalForAll): void {
 	let contractAddress = event.address.toHex()
-	let ownerAddress = event.params.owner
 	let operatorAddress = event.params.operator
+	let ownerAddress = event.params.owner
 	let blockNumber = event.block.number
 	let blockId = blockNumber.toString()
 	let txHash = event.transaction.hash
@@ -72,7 +73,7 @@ export function handleApprovalForAll(event: ApprovalForAll): void {
 
 	let transaction = metadata.transactions.getOrCreateTransaction(
 		txHash.toHexString(),
-		blockId,
+		block.id,
 		txHash,
 		event.transaction.from,
 		event.transaction.gasLimit,
@@ -88,7 +89,7 @@ export function handleApprovalForAll(event: ApprovalForAll): void {
 	operator.save()
 
 	let operatorOwner = accounts.getOrCreateOperatorOwner(
-		owner.id, operator.id, event.params.approved
+		operator.id, owner.id, event.params.approved
 	)
 	operatorOwner.save()
 

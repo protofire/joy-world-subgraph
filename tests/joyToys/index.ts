@@ -5,21 +5,21 @@ import { testHandleTransfer } from "./handleTransfer.test";
 import { testHandleApproval } from "./handleApproval.test";
 import { testHandleApprovalForAll } from "./handleApprovalForAll.test";
 
-export namespace joyWorld {
+export namespace joyToys {
 	export function runtTests(): void {
-		test("joyWorld - handleMint",
+		test("joyToys - handleMint",
 			testHandleMint
 		)
-		test("joyWorld - handleBurn",
+		test("joyToys - handleBurn",
 			testHandleBurn
 		)
-		test("joyWorld - handleTransfer",
+		test("joyToys - handleTransfer",
 			testHandleTransfer
 		)
-		test("joyWorld - handleApproval",
+		test("joyToys - handleApproval",
 			testHandleApproval
 		)
-		test("joyWorld - handleApprovalForAll",
+		test("joyToys - handleApprovalForAll",
 			testHandleApprovalForAll
 		)
 	}
