@@ -57,7 +57,8 @@ export function testHandleMint(): void {
 	let entityTokenId = tokens.helpers.getTokenId(contractAddress, tokenId.toHex())
 	assert.fieldEquals("JoyToken", entityTokenId, "owner", toAsHex)
 
-	// TODO test minter
+	// check minter
+	assert.fieldEquals("Account", toAsHex, "address", toAsHex)
 
 	clearStore()
 }

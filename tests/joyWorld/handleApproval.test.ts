@@ -59,7 +59,12 @@ export function testHandleApproval(): void {
 	assert.fieldEquals("JoyToken", entityTokenId, "owner", ownerAsHex)
 	assert.fieldEquals("JoyToken", entityTokenId, "approval", approvedAsHex)
 
-	// TODO test owner
+
+	// check owner
+	assert.fieldEquals("Account", ownerAsHex, "address", ownerAsHex)
+
+	// check approved
+	assert.fieldEquals("Account", approvedAsHex, "address", approvedAsHex)
 
 	clearStore()
 }

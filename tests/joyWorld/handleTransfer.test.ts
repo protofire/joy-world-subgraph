@@ -60,7 +60,12 @@ export function testHandleTransfer(): void {
 	let entityTokenId = tokens.helpers.getTokenId(contractAddress, tokenId.toHex())
 	assert.fieldEquals("JoyToken", entityTokenId, "owner", toAsHex)
 
-	// TODO test accounts
+	// check seller
+	assert.fieldEquals("Account", toAsHex, "address", toAsHex)
+
+	// check buyer
+	assert.fieldEquals("Account", fromAsHex, "address", fromAsHex)
+
 
 	clearStore()
 }

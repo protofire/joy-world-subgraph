@@ -58,7 +58,8 @@ export function testHandleBurn(): void {
 	assert.fieldEquals("JoyToken", entityTokenId, "owner", toAsHex)
 	assert.fieldEquals("JoyToken", entityTokenId, "burned", "true")
 
-	// TODO test owner
+	// check owner
+	assert.fieldEquals("Account", fromAsHex, "address", fromAsHex)
 
 	clearStore()
 }
