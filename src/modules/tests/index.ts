@@ -1,9 +1,66 @@
 import { Address, Bytes, BigInt, ethereum, TypedMap } from "@graphprotocol/graph-ts"
 import { newMockEvent, assert } from "matchstick-as"
+import {
+	handleTransfer as joyWorldHandleTransfer,
+	handleApproval as joyWorldHandleApproval
+} from "../../mappings/joyWorld"
 
 export namespace tests {
+
+	export namespace mappingsWrapper {
+		export namespace joyWorld {
+			export let handleTransfer = joyWorldHandleTransfer
+			export let handleApproval = joyWorldHandleApproval
+		}
+	}
 	export namespace helpers {
 		export namespace runtime {
+
+			export function testBlock(
+				blockId: string, timestamp: string, blockNumber: string
+			): void {
+				let params = new TypedMap<string, string>()
+				params.set("timestamp", timestamp)
+				params.set("number", blockNumber)
+
+				assertMany(
+					"Block", blockId, params
+				)
+			}
+
+			export function testTransaction(
+				txId: string, blockId: string, txHash: string,
+				from: string, gasLimit: string, gasPrice: string
+			): void {
+				let params = new TypedMap<string, string>()
+				params.set("block", blockId)
+				params.set("hash", txHash)
+				params.set("from", from)
+				params.set("gasLimit", gasLimit)
+				params.set("gasPrice", gasPrice)
+
+				assertMany(
+					"Transaction", txId, params
+				)
+			}
+
+			export function testErc721Tx(
+				erc721TxId: string, from: string, to: string,
+				token: string, block: string, txId: string, type: string
+			): void {
+
+				let erc721TxParams = new TypedMap<string, string>()
+				erc721TxParams.set("from", from)
+				erc721TxParams.set("to", to)
+				erc721TxParams.set("token", token)
+				erc721TxParams.set("block", block)
+				erc721TxParams.set("transaction", txId)
+				erc721TxParams.set("type", type)
+
+				assertMany(
+					"Erc721Transaction", erc721TxId, erc721TxParams
+				)
+			}
 
 			export function assertMany(
 				entityName: string,

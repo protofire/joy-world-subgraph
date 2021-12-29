@@ -32,9 +32,9 @@ export namespace events {
 	export namespace approvals {
 
 		export function getOrCreateApproval(
+			sourceContractAddress: string,
 			approved: string, owner: string, timestamp: string,
-			token: string, transaction: string, block: string,
-			sourceContractAddress: string
+			token: string, transaction: string, block: string
 		): Approval {
 			let id = helpers.getNewEventId(sourceContractAddress, approved, owner, timestamp)
 			let entity = Approval.load(id)

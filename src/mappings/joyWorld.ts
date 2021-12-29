@@ -26,7 +26,7 @@ export function handleApproval(event: Approval): void {
 
 	let transaction = metadata.transactions.getOrCreateTransaction(
 		txHash.toHexString(),
-		blockId,
+		block.id,
 		txHash,
 		event.transaction.from,
 		event.transaction.gasLimit,
@@ -34,18 +34,6 @@ export function handleApproval(event: Approval): void {
 		contractAddress
 	)
 	transaction.save()
-
-	let approval = events.approvals.getOrCreateApproval(
-		contractAddress,
-		approvedAddress.toHex(),
-		ownerAddress.toHex(),
-		timestamp.toString(),
-		tokenId,
-		transaction.id,
-		block.id
-	)
-	approval.save()
-
 
 	let approved = accounts.getOrCreateAccount(approvedAddress)
 	approved.save()
@@ -55,6 +43,17 @@ export function handleApproval(event: Approval): void {
 
 	let token = tokens.joyWorld.setApproval(contractAddress, tokenId, approved.id, owner.id)
 	token.save()
+
+	let approval = events.approvals.getOrCreateApproval(
+		contractAddress,
+		approvedAddress.toHex(),
+		ownerAddress.toHex(),
+		timestamp.toString(),
+		token.id,
+		transaction.id,
+		block.id
+	)
+	approval.save()
 }
 
 export function handleApprovalForAll(event: ApprovalForAll): void {
