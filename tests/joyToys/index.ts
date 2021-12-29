@@ -3,7 +3,7 @@ import { testHandleMint } from "./handleMint.test";
 import { testHandleBurn } from "./handleBurn.test";
 import { testHandleTransfer } from "./handleTransfer.test";
 import { testHandleApproval } from "./handleApproval.test";
-// import { testHandleApprovalForAll } from "./handleApprovalForAll.test";
+import { testHandleApprovalForAll } from "./handleApprovalForAll.test";
 
 export namespace joyToys {
 	export function runtTests(): void {
@@ -19,8 +19,8 @@ export namespace joyToys {
 		test("joyToys - handleApproval",
 			testHandleApproval
 		)
-		// test("joyToys - handleApprovalForAll",
-		// 	testHandleApprovalForAll
-		// )
+		test("joyToys - handleApprovalForAll",
+			testHandleApprovalForAll
+		)
 	}
 }

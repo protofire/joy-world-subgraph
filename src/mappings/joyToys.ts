@@ -89,7 +89,7 @@ export function handleApprovalForAll(event: ApprovalForAll): void {
 	operator.save()
 
 	let operatorOwner = accounts.getOrCreateOperatorOwner(
-		owner.id, operator.id, event.params.approved
+		operator.id, owner.id, event.params.approved
 	)
 	operatorOwner.save()
 
