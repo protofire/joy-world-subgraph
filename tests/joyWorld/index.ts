@@ -1,7 +1,8 @@
 import { test } from "matchstick-as/assembly/index"
-import { testHandleMint } from "./handleMint";
-import { testHandleBurn } from "./handleBurn";
-import { testHandleTransfer } from "./handleTransfer";
+import { testHandleMint } from "./handleMint.test";
+import { testHandleBurn } from "./handleBurn.test";
+import { testHandleTransfer } from "./handleTransfer.test";
+import { testHandleApproval } from "./handleApproval.test";
 
 export namespace joyWorld {
 	export function runtTests(): void {
@@ -13,6 +14,9 @@ export namespace joyWorld {
 		)
 		test("joyWorld - handleTransfer",
 			testHandleTransfer
+		)
+		test("joyWorld - handleApproval",
+			testHandleApproval
 		)
 	}
 }
