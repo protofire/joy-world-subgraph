@@ -5,6 +5,11 @@ import {
 	handleApproval as joyWorldHandleApproval,
 	handleApprovalForAll as joyWorldHandleApprovalForAll
 } from "../../mappings/joyWorld"
+import {
+	handleTransfer as joyToysHandleTransfer,
+	handleApproval as joyToysHandleApproval,
+	handleApprovalForAll as joyToysHandleApprovalForAll
+} from "../../mappings/joyToys"
 
 export namespace tests {
 
@@ -13,6 +18,11 @@ export namespace tests {
 			export let handleTransfer = joyWorldHandleTransfer
 			export let handleApproval = joyWorldHandleApproval
 			export let handleApprovalForAll = joyWorldHandleApprovalForAll
+		}
+		export namespace joyToys {
+			export let handleTransfer = joyToysHandleTransfer
+			export let handleApproval = joyToysHandleApproval
+			export let handleApprovalForAll = joyToysHandleApprovalForAll
 		}
 	}
 	export namespace helpers {

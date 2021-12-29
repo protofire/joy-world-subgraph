@@ -16,8 +16,8 @@ export namespace joyToys {
 			token.save()
 
 			let transaction = events.transactions.getNewMint(
-				account.id, tokenId, timestamp.toString(),
-				blockId, transactionId, sourceContractAddress
+				sourceContractAddress, account.id, tokenId,
+				timestamp.toString(), blockId, transactionId
 			)
 			transaction.save()
 		}
